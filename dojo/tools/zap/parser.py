@@ -183,19 +183,19 @@ class Item(object):
         else: self.cwe = 0
 
         description_detail = "\n"
-        for instance in item_node.findall('instances/instance'):
+        for instance in item_node.getchildren():
             for node in instance.getiterator():
                 if node.tag == "uri":
-                    if node.text != "":
+                    if ((node.text != None) and (node.text != "")):
                         description_detail += "URL: " + node.text
                 if node.tag == "method":
-                    if node.text != "":
+                    if ((node.text != None) and (node.text != "")):
                         description_detail += "Method: " + node.text
                 if node.tag == "param":
-                    if node.text != "":
+                    if ((node.text != None) and (node.text != "")):
                         description_detail += "Parameter: " + node.text
                 if node.tag == "evidence":
-                    if node.text != "":
+                    if ((node.text != None) and (node.text != "")):
                         description_detail += "Evidence: " + node.text
                 description_detail += "\n"
 
@@ -207,10 +207,10 @@ class Item(object):
         self.items = []
         i = 0
 
-        for n in item_node.findall('instances/instance/uri'):
+        for n in item_node.findall('uri'):
             n2 = None
-            if item_node.findall('instances/instance/param'):
-                n2 = item_node.findall('instances/instance/param')[i]
+            if item_node.findall('param'):
+                n2 = item_node.findall('param')[i]
 
             mregex = re.search(
                 "(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))[\:]*([0-9]+)*([/]*($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+)).*?$",
